@@ -12,7 +12,9 @@ load_dotenv()
 
 server_url = get_ngrok_url()
 set_webhook_address(server_url+'/hook')
+
 app = FastAPI()
+
 @app.post("/hook")
 async def chat(
     request: Request, From: str = Form(...), Body: str = Form(...)

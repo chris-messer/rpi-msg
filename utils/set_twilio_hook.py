@@ -12,3 +12,6 @@ def set_webhook_address(url: str):
         os.environ["TWILIO_PHONE_SID"]
     ).update(sms_url=url)
 
+
+if __name__ == '__main__':
+    set_webhook_address('https://demo.twilio.com/welcome/messaging/')
