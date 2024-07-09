@@ -16,7 +16,7 @@ import traceback
 
 logging.basicConfig(level=logging.INFO)
 
-def print_text(image):
+def print_img(image):
     try:
         logging.info("Printing Text")
         epd = epaper.epaper('epd2in7').EPD()
@@ -39,6 +39,7 @@ def print_text(image):
         logging.info("ctrl + c:")
         epaper.epaper('epd2in7').epdconfig.module_exit()
         exit()
+    return {'status': 200}
 
 def clear_screen():
     try:

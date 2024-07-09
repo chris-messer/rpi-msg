@@ -1,11 +1,15 @@
+import os
+print(os.getcwd())
+
 from fastapi import FastAPI, Form, Response, Request, HTTPException
 import uvicorn
-from pydantic import BaseModel
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.request_validator import RequestValidator
 from dotenv import load_dotenv
-from utils.establish_ngrok import get_ngrok_url
-from utils.set_twilio_hook import set_webhook_address
+from external_services.service_ngrok import get_ngrok_url
+from external_services.service_twilio import set_webhook_address
+from utils.create_message import text_to_image
+from display.print_to_eink import print_img
 
 import os
 load_dotenv()
@@ -29,9 +33,18 @@ async def chat(
         raise HTTPException(status_code=400, detail="Error in Twilio Signature")
 
     response = MessagingResponse()
-    msg = response.message(f"Hi {From}, you said: {Body}")
+    # msg = response.message(f"Hi {From}, you said: {Body}")
+    img = text_to_image(Body)
+    print_img(img)
     return Response(content=str(response), media_type="application/xml")
 
 
-if __name__ == "__main__":
-   uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.post("/dev")
+async def root(request: Request):
+    pckg = dict(request.query_params)
+    msg = pckg.get('Body','')
+    img = text_to_image(msg)
+    print_img(img)
+    return {"status": 200}
+
+uvicorn.run(app, host="0.0.0.0", port=8000)

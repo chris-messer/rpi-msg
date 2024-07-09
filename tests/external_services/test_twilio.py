@@ -1,8 +1,5 @@
-import pytest
-
-
 def test_twilio():
-    from utils.set_twilio_hook import set_webhook_address
+    from app.external_services.service_twilio import set_webhook_address
     from twilio.rest import Client
     import os
 
