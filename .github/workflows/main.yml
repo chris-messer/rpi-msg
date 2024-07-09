@@ -46,5 +46,6 @@ jobs:
       - name: Run uvicorn
         run: |
           source rpi-msg/bin/activate
+          export PYTHONPATH=$PWD
           cd app
           python main.py
