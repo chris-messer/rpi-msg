@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import logging
-from ..utils.utils import get_project_root
+from app.utils.utils import get_project_root
 root = get_project_root()
 
 logging.basicConfig(level=logging.INFO)
