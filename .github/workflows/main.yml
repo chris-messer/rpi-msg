@@ -48,4 +48,4 @@ jobs:
           source rpi-msg/bin/activate
           export PYTHONPATH=$PWD
           cd app
-          python main.py
+          nohup python main.py > server.log 2>&1 &
