@@ -7,7 +7,14 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+env:
+      working-directory: src
+      NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_PHONE_SID: ${{ secrets.TWILIO_PHONE_SID }}
+      TWILIO_SECRET: ${{ secrets.TWILIO_SECRET }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
