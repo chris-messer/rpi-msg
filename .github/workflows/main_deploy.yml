@@ -34,4 +34,5 @@ jobs:
           export PYTHONPATH=$PWD
           cd app
           # nohup python main.py > server.log 2>&1 &
-          python main.py 
+          python main.py &
+          disown %1
