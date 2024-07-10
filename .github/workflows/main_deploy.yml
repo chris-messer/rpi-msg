@@ -1,0 +1,38 @@
+name: Deploy
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+env:
+      working-directory: src
+      NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_PHONE_SID: ${{ secrets.TWILIO_PHONE_SID }}
+      TWILIO_SECRET: ${{ secrets.TWILIO_SECRET }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  
+  deploy:
+    runs-on: self-hosted
+
+    
+    steps:
+      
+      # Run gunicorn server
+      - name: Run uvicorn
+        run: |
+          source rpi-msg/bin/activate
+          export PYTHONPATH=$PWD
+          cd app
+          # nohup python main.py > server.log 2>&1 &
+          nohup python main.py &
+          disown %1
