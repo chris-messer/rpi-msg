@@ -36,6 +36,19 @@ jobs:
           source rpi-msg/bin/activate
           python3 -m pip install -r requirements.txt
           python3 -m pip install uvicorn==0.30.1
+  
+  test:
+    runs-on: self-hosted
+    needs: build
+    
+    steps:
+      - name: run tests
+        run: |
+          source rpi-msg/bin/activate
+          export PYTHONPATH=$PWD
+          python3 -m pytest tests
+  
+  
   deploy:
     runs-on: self-hosted
     needs: build
@@ -49,5 +62,5 @@ jobs:
           export PYTHONPATH=$PWD
           cd app
           # nohup python main.py > server.log 2>&1 &
-          python main.py
+          python main.py &
           disown %1
