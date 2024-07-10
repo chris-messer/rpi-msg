@@ -1,4 +1,4 @@
-name: Deploy to Raspberry Pi
+name: Deploy
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -20,38 +20,10 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Setup virtual env, install dependencies
-      - name: Create new virtual env and activate it
-        run: |
-          python3 -m venv rpi-msg
-          source rpi-msg/bin/activate
-          python3 -m pip install -r requirements.txt
-          python3 -m pip install uvicorn==0.30.1
-  
-  test:
-    runs-on: self-hosted
-    needs: build
-    
-    steps:
-      - name: run tests
-        run: |
-          source rpi-msg/bin/activate
-          export PYTHONPATH=$PWD
-          python3 -m pytest tests
-  
   
   deploy:
     runs-on: self-hosted
-    needs: test
+
     
     steps:
       
@@ -62,5 +34,4 @@ jobs:
           export PYTHONPATH=$PWD
           cd app
           # nohup python main.py > server.log 2>&1 &
-          nohup python main.py &
-          disown %1
+          python main.py
