@@ -28,10 +28,7 @@ jobs:
     steps:
       
       # Run gunicorn server
-      - name: Run uvicorn
+      - name: Start systemd process
         run: |
-          source rpi-msg/bin/activate
-          export PYTHONPATH=$PWD
-          cd app
-          # nohup python main.py > server.log 2>&1 &
-          python main.py
+          sudo systemctl daemon-reload
+          sudo systemctl start rpi-msg
