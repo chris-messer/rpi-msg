@@ -31,4 +31,5 @@ jobs:
       - name: Start systemd process
         run: |
           sudo systemctl daemon-reload
+          sudo systemctl enable rpi-msg
           sudo systemctl start rpi-msg
