@@ -6,10 +6,16 @@ import uvicorn
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.request_validator import RequestValidator
 from dotenv import load_dotenv
-from external_services.service_ngrok import get_ngrok_url
-from external_services.service_twilio import set_webhook_address
-from utils.create_message import text_to_image
-from display.print_to_eink import print_img
+from app.external_services.service_ngrok import get_ngrok_url
+from app.external_services.service_twilio import set_webhook_address
+from app.utils.create_message import text_to_image
+from app.display.print_to_eink import print_img
+from pydantic import BaseModel
+
+
+class Msg(BaseModel):
+    message: str
+
 
 import os
 load_dotenv()
@@ -40,9 +46,8 @@ async def chat(
 
 
 @app.post("/dev")
-async def root(request: Request):
-    pckg = dict(request.query_params)
-    msg = pckg.get('Body','')
+async def root(msg: Msg):
+    msg = msg.message
     img = text_to_image(msg)
     print_img(img)
     return {"status": 200}
