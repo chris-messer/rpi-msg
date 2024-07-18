@@ -10,11 +10,16 @@ from app.external_services.service_ngrok import get_ngrok_url
 from app.external_services.service_twilio import set_webhook_address
 from app.utils.create_message import text_to_image
 from app.display.print_to_eink import print_img
+from app.utils.utils import get_project_root
 from pydantic import BaseModel
+from typing import Union, Optional
+import requests
 
 
 class Msg(BaseModel):
     message: str
+class Mms(BaseModel):
+    From: str
 
 
 import os
@@ -27,8 +32,17 @@ app = FastAPI()
 
 @app.post("/hook")
 async def chat(
-    request: Request, From: str = Form(...), Body: str = Form(...)
+    request: Request,
+    MediaUrl0: Optional[str] = Form(None),
+    From: Optional[str] = Form(None),
+    Body: Optional[str] = Form(None)
 ):
+    # filename = 'image.png'
+    # with open('image.png', 'wb') as f:
+    #    image_url = MediaUrl0
+    #    f.write(requests.get(image_url).content)
+
+
     validator = RequestValidator(os.environ["TWILIO_AUTH_TOKEN"])
     form_ = await request.form()
     if not validator.validate(

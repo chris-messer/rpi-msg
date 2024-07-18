@@ -6,7 +6,7 @@ root = get_project_root()
 logging.basicConfig(level=logging.INFO)
 
 
-def build_img_from_text(_text, font):
+def build_img_from_text(_text, font= 'arial'):
     out = Image.new("RGB", (264, 176), (255, 255, 255))
     fnt = ImageFont.truetype(f"{str(root)}/fonts/{font}.ttf", 18)
     d = ImageDraw.Draw(out)

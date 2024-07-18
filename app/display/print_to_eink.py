@@ -9,7 +9,6 @@ if os.path.exists(libdir):
     sys.path.append(libdir)
 
 import logging
-import epaper
 import time
 from PIL import Image, ImageDraw, ImageFont
 import traceback
@@ -17,6 +16,7 @@ import traceback
 logging.basicConfig(level=logging.INFO)
 
 def print_img(image):
+    import epaper
     try:
         logging.info("Printing Text")
         epd = epaper.epaper('epd2in7').EPD()
