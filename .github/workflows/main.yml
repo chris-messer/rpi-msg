@@ -51,16 +51,13 @@ jobs:
   
   deploy:
     runs-on: self-hosted
-    needs: test
+
     
     steps:
       
       # Run gunicorn server
-      - name: Run uvicorn
+      - name: Start systemd process
         run: |
-          source rpi-msg/bin/activate
-          export PYTHONPATH=$PWD
-          cd app
-          # nohup python main.py > server.log 2>&1 &
-          nohup python main.py &
-          disown %1
+          sudo systemctl daemon-reload
+          sudo systemctl enable rpi-msg
+          sudo systemctl start rpi-msg
