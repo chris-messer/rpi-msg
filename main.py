@@ -37,10 +37,7 @@ async def chat(
     From: Optional[str] = Form(None),
     Body: Optional[str] = Form(None)
 ):
-    # filename = 'image.png'
-    # with open('image.png', 'wb') as f:
-    #    image_url = MediaUrl0
-    #    f.write(requests.get(image_url).content)
+
 
 
     validator = RequestValidator(os.environ["TWILIO_AUTH_TOKEN"])
