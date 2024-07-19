@@ -44,6 +44,7 @@ jobs:
     steps:
       - name: run tests
         run: |
+          sudo systemctl stop rpi-msg
           source rpi-msg/bin/activate
           export PYTHONPATH=$PWD
           python -m pytest tests
