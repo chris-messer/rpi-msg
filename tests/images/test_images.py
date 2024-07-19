@@ -14,7 +14,7 @@ def test_convert_image(tmp_image, tmp_out_dir):
     img_converted = convert_image_to_bmp(tmp_image)
     img_converted.save(f'{tmp_out_dir}/converted_image.bmp')
 
-    assert os.path.isfile(f'{tmp_out_dir}\\converted_image.bmp')
+    assert os.path.isfile(f'{tmp_out_dir}/converted_image.bmp')
 
 def test_crop_image(tmp_image):
     from app.image_utils.crop_image import crop_image

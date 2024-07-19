@@ -1,7 +1,7 @@
 import pytest
 from tests.conftest import is_rpi
 @pytest.mark.skipif(
-    is_rpi,
+    not is_rpi(),
     reason="requires host system to have display"
 )
 def test_print():
@@ -13,7 +13,7 @@ def test_print():
 
 
 @pytest.mark.skipif(
-    is_rpi,
+    not is_rpi(),
     reason="requires host system to have display"
 )
 def test_clear():
@@ -22,7 +22,7 @@ def test_clear():
 
 
 @pytest.mark.skipif(
-    is_rpi,
+    not is_rpi(),
     reason="requires host system to have display"
 )
 def test_build_image():

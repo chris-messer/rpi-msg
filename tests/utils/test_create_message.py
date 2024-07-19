@@ -1,8 +1,9 @@
 import pytest
 from tests.conftest import is_rpi
 
+print(is_rpi)
 @pytest.mark.skipif(
-    is_rpi,
+    not is_rpi(),
     reason="requires host system to have display"
 )
 def test_create_message():

@@ -42,6 +42,7 @@ def print_img(image):
     return {'status': 200}
 
 def clear_screen():
+    import epaper
     try:
         logging.info("Printing Text")
         epd = epaper.epaper('epd2in7').EPD()
