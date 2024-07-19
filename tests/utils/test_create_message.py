@@ -1,3 +1,10 @@
+import pytest
+from tests.conftest import is_rpi
+
+@pytest.mark.skipif(
+    is_rpi,
+    reason="requires host system to have display"
+)
 def test_create_message():
     from app.utils.create_message import text_to_image
     from app.display.print_to_eink import print_img

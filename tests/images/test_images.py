@@ -1,33 +1,35 @@
 from PIL import Image
 
-def test_save_image():
+def test_save_image(img_url, tmp_out_dir):
     from app.image_utils.save_image import save_image_from_url
-    from app.utils.utils import get_project_root
-    root = get_project_root()
     import os
-    save_image_from_url\
-        ('https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187.jpg?w=718&h=479')
 
+    save_image_from_url(img_url, tmp_out_dir, 'image.png')
+    assert os.path.exists(f'{tmp_out_dir}/image.png')
 
-    assert os.path.exists(f'{root}/images/raw/image.png')
-
-def test_convert_image(tmp_path):
+def test_convert_image(tmp_image, tmp_out_dir):
     from app.image_utils.convert_image import convert_image_to_bmp
-    from app.utils.utils import get_project_root
-    from app.image_utils.save_image import save_image_from_url
     import os
 
-    temp_in_dir = tmp_path / "raw"
-    temp_in_dir.mkdir()
+    img_converted = convert_image_to_bmp(tmp_image)
+    img_converted.save(f'{tmp_out_dir}/converted_image.bmp')
 
-    temp_out_dir = tmp_path / "bmp"
-    temp_out_dir.mkdir()
+    assert os.path.isfile(f'{tmp_out_dir}\\converted_image.bmp')
 
-    save_image_from_url(
-        'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187.jpg?w=718&h=479',
-        f'{temp_in_dir}',
-        'image.png'
-    )
+def test_crop_image(tmp_image):
+    from app.image_utils.crop_image import crop_image
 
-    convert_image_to_bmp(temp_in_dir, temp_out_dir)
-    assert os.path.isfile(f'{temp_out_dir}\\image.bmp')
+    cropped_img = crop_image(tmp_image, 264, 176)
+    assert cropped_img.size == (264, 176)
+
+def test_scale_image(tmp_image):
+    from app.image_utils.scale_image import scale_image
+
+    scaled_img = scale_image(tmp_image, 264)
+    assert scaled_img.size[0] == 264
+
+def test_transform(img_url):
+    from app.image_utils.transform_image import get_and_transform_image
+
+    img = get_and_transform_image(img_url)
+    assert True

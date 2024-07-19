@@ -2,9 +2,8 @@ from PIL import Image
 import numpy as np
 from app.utils.utils import get_project_root
 
-def convert_image_to_bmp(in_path, out_path):
+def convert_image_to_bmp(img):
 
-    img = Image.open(f'{in_path}/image.png')
     ary = np.array(img)
 
     # Split the three channels
@@ -20,4 +19,4 @@ def convert_image_to_bmp(in_path, out_path):
     bitmap = np.dot((bitmap > 128).astype(float),255)
     # inv_mitmap = np.dot((bitmap < 128).astype(float),255)
     im = Image.fromarray(bitmap.astype(np.uint8))
-    im.save(f'{out_path}/image.bmp')
+    return im
