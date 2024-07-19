@@ -46,7 +46,7 @@ jobs:
         run: |
           source rpi-msg/bin/activate
           export PYTHONPATH=$PWD
-          python3 -m pytest tests
+          python -m pytest tests
   
   
   deploy:
