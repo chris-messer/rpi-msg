@@ -2,9 +2,9 @@ from PIL import Image
 import numpy as np
 from app.utils.utils import get_project_root
 
-def convert_image_to_bmp():
-    root = get_project_root()
-    img = Image.open(f'{root}/images/raw/image.png')
+def convert_image_to_bmp(in_path, out_path):
+
+    img = Image.open(f'{in_path}/image.png')
     ary = np.array(img)
 
     # Split the three channels
@@ -18,5 +18,6 @@ def convert_image_to_bmp():
     zip(r,g,b)))
     bitmap = np.array(bitmap).reshape([ary.shape[0], ary.shape[1]])
     bitmap = np.dot((bitmap > 128).astype(float),255)
+    # inv_mitmap = np.dot((bitmap < 128).astype(float),255)
     im = Image.fromarray(bitmap.astype(np.uint8))
-    im.save(f'{root}/images/bmp/image.bmp')
+    im.save(f'{out_path}/image.bmp')
