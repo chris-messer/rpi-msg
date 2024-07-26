@@ -3,7 +3,7 @@ from app.display.print_to_eink import clear_screen
 from app.messaging.messages import send_message
 from dotenv import load_dotenv
 import logging
-from time import gmtime, strftime
+from time import gmtime, strftime, mktime, localtime
 
 
 
@@ -17,9 +17,11 @@ btn4 = Button(19)
 
 
 def key1():
-    ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    send_message('18179956114',f'Kali saw your image at {ts}')
-    send_message('18175019724',f'Kali saw your image at {ts}')
+    utc_time = gmtime()
+    cst_time = localtime(mktime(utc_time) - 6 * 3600)
+    ts = strftime("%Y-%m-%d %H:%M:%S", cst_time)
+    send_message('18179956114',f'Kali saw your image at {ts} CT')
+    send_message('18175019724',f'Kali saw your image at {ts} CT')
 
 def key2():
     clear_screen()
