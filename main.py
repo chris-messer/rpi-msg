@@ -1,6 +1,3 @@
-import os
-print(os.getcwd())
-
 from fastapi import FastAPI, Form, Response, Request, HTTPException
 import uvicorn
 from twilio.twiml.messaging_response import MessagingResponse
@@ -14,39 +11,41 @@ from app.image_utils.transform_image import get_and_transform_image
 from app.utils.utils import get_project_root
 from pydantic import BaseModel
 from typing import Union, Optional
-import requests
+from threading import Thread
+from app.display.buttons import button_listen
 
 
 class Msg(BaseModel):
     message: str
+
+
 class Mms(BaseModel):
     From: str
 
 
 import os
+
 load_dotenv()
 
 server_url = get_ngrok_url()
-set_webhook_address(server_url+'/hook')
+set_webhook_address(server_url + '/hook')
 
 app = FastAPI()
 
+
 @app.post("/hook")
 async def chat(
-    request: Request,
-    MediaUrl0: Optional[str] = Form(None),
-    From: Optional[str] = Form(None),
-    Body: Optional[str] = Form(None)
+        request: Request,
+        MediaUrl0: Optional[str] = Form(None),
+        From: Optional[str] = Form(None),
+        Body: Optional[str] = Form(None)
 ):
-
-
-
     validator = RequestValidator(os.environ["TWILIO_AUTH_TOKEN"])
     form_ = await request.form()
     if not validator.validate(
-        str(request.url),
-        form_,
-        request.headers.get("X-Twilio-Signature", "")
+            str(request.url),
+            form_,
+            request.headers.get("X-Twilio-Signature", "")
     ):
         raise HTTPException(status_code=400, detail="Error in Twilio Signature")
     response = MessagingResponse()
@@ -67,4 +66,6 @@ async def root(msg: Msg):
     print_img(img)
     return {"status": 200}
 
+button_listen = Thread(target=button_listen)
+button_listen.start()
 uvicorn.run(app, host="0.0.0.0", port=8000)
